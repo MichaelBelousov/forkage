@@ -19,9 +19,10 @@ fkg install MichaelBelousov/forkage # if you choose a default provider
 fkg i MichaelBelousov/forkage
 # when installing a specific revision, if you already have it installed unambiguously you can drop the
 # leading qualifier
-fkg i forkage@v1.0
 fkg i forkage@v1.0 # use git tag
 fkg i forkage@0adf18 # use git commit
+# if you somehow need two different versions of one package, use --unique installs
+fkg i --unique MichaelBelousov@v2.0 # includes the tag in the package directory's name
 fkg uninstall forkage # will work if unambiguously installed
 fkg remove forkage
 ```
@@ -86,18 +87,23 @@ fkg init gl:Org/Name # create a package under a specific provider and organizati
 ## Layout
 
 Packages are installed to the nearest `forkage` directory, ascending from the current directory's path.
-If there are none, a new `forkage` directory is created in the current directory
-When executing commands, if there is non.
+If there are none, a new `forkage` directory is created in the current directory.
 
 A config file will be searched for in order:
 - `.forkageconfig` next to the nearest `forkage` directory ascending the current directory's path.
 - `$HOME/.forkageconfig`
 - `/etc/forkageconfig`
 
-An example git provider URL of github.com/MichaelBelousov/forkage would be installed as:
+An example git provider URL of `https://github.com/MichaelBelousov/forkage` would be installed as:
 
 ```sh
 ./forkage/github.com/MichaelBelousov/forkage
+```
+
+A unique install (`fkg i --unique gh:MichaelBelousov/forkage@v0.3`) would install to a unique directory:
+
+```sh
+./forkage/github.com/MichaelBelousov/forkage@v0.3
 ```
 
 The URL's path delimiters are translated to file system path delimiters.
