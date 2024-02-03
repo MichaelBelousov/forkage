@@ -29,7 +29,7 @@ fn resolve_name(name: &'a str) -> Url {
 
 // clap
 fn default_install(name: &'a str) {
-    std::process::Command::new("git").args(["clone", target])
+    std::process::Command::new("git").args(["clone", target, "--recurse-submodules"])
         .output();
 }
 
