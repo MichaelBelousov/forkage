@@ -74,6 +74,8 @@ fkg info forkage
 # can also show extended information of remote package
 fkg info gh:MichaelBelousov/forkage
 fkg list # list all installed packages
+# diff our version vs some branch
+fkg diff forkage @master # can use unqualified branch/ref
 ```
 
 ### creating
@@ -82,6 +84,14 @@ fkg list # list all installed packages
 # this is basically like creating a new repo on a provider and git cloning it
 fkg init Name # create a package (repo) for your user on your default provider
 fkg init gl:Org/Name # create a package under a specific provider and organization
+```
+
+### raw operations
+
+```sh
+# do something in the package's directory
+fkg do gh:MichaelBelousov/forkage git ls-files
+fkg do forkage git diff master
 ```
 
 ## Layout
@@ -108,16 +118,29 @@ A unique install (`fkg i --unique gh:MichaelBelousov/forkage@v0.3`) would instal
 
 The URL's path delimiters are translated to file system path delimiters.
 
+### `forkagelist`
+
+Next to the `forkage` directory will be placed a `forkagelist` file capturing the packages in the project.
+The format is .ini
+
+<!-- FIXME, define https vs ssh addresses  -->
+```ini
+[forkage]
+  address = https://github.com/MichaelBelousov/forkage
+  locked = 0123456789abcdef
+  reference = master
+  unique = false
+[forkage@v0.1]
+  address = https://github.com/MichaelBelousov/forkage
+  locked = 7654321089dcbaef
+  reference = 0.1
+  unique = true
+```
+
 ## Dependencies
 
-Forkage does not do dependencies. Instead, authors are encouraged to mark dependencies in ways particular
-to the content they are hosting.
+Haven't thought this one out yet. Technically if the package uses forkage, we can recurse.
 
-For instance, a package containing JavaScript source of an npm package could configure a workspace manager
+Consider npm dependencies though: a package containing JavaScript source of an npm package could configure a workspace manager
 like [`pnpm`](https://pnpm.io) to include all `forkage/*` directories in the workspace so that they participate
 in workspace dependency resolution and even build commands.
-
-Some projects may choose to be encapsulate their dependencies by adding e.g. git submodules to their repository.
-
-There may come a day when we see that it would be useful for a forkage package to say that installing it should
-install others. We'll see. For now use a git submodule or subtree, etc.

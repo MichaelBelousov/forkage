@@ -33,11 +33,18 @@ fn default_install(name: &'a str) {
         .output();
 }
 
-pub trait GitProvider {
+pub enum ProviderType {
+    Git,
+}
+
+
+pub trait VcsProvider {
+    fn type() -> ProviderType;
     fn search<'a>(&self, s: &'a str) -> vec<String>;
     fn fork<'a>(&self, s: &'a str) -> vec<String>;
     fn install<'a>(&self, s: &'a str) -> vec<String>;
-    fn install<'a>(&self, s: &'a str) -> vec<String>;
+    fn uninstall<'a>(&self, s: &'a str) -> vec<String>;
+    fn info<'a>(&self, s: &'a str) -> vec<String>;
 }
 
 pub struct Github {
