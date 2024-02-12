@@ -3,7 +3,7 @@
 This is both documentation and a design document (the latter at this stage anyway).
 Many things here aren't implemented.
 
-Forkage is an unbiased package manager that encourages forking packages for tweaking, and
+Forkage is a simple package manager that encourages forking packages for tweaking, and
 searching others' forks.
 With the current goal of supporting git and common git hosts.
 
